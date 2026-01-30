@@ -1,0 +1,5 @@
+Write IsarDbService class
+
+Similarly to AppwriteDbService it should
+have fillDb method that populates
+local isar db with data taken from JSON files

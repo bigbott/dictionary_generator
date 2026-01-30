@@ -1,0 +1,10 @@
+
+We have separated JSON files stored in 
+directory Config.jsons
+
+Update AppwriteDbService with method
+void runUploads()
+The method should read JSONs one by one. 
+Create the Entry object first, than create
+a Word object and use it to upload data
+to appwrite collection 

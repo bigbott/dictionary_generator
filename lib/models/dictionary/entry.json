@@ -1,0 +1,61 @@
+{
+  "word": "light",
+  "frequency": 100,
+  "pronunciation": "laɪt",
+  "transliteration": "лайт",
+  "parts_of_speech": [
+    {
+      "pos": "noun",
+      "forms": {
+        "singular": "light",
+        "plural": "lights"
+      },
+      "definitions": [
+        {
+          "meaning": "источник освещения, свет",
+          "example": "Turn on the light",
+          "example_ru": "Включи свет"
+        },
+        {
+          "meaning": "огонь (для прикуривания)",
+          "example": "Do you have a light?",
+          "example_ru": "У тебя есть прикурить?"
+        }
+      ]
+    },
+    {
+      "pos": "verb",
+      "forms": {
+        "infinitive": "to light",
+        "past": "lit",
+        "past_participle": "lit"
+      },
+      "definitions": [
+        {
+          "meaning": "зажигать, освещать",
+          "example": "Light the candles",
+          "example_ru": "Зажги свечи"
+        }
+      ]
+    },
+    {
+      "pos": "adjective",
+      "forms": {
+        "comparative": "lighter",
+        "superlative": "lightest"
+      },
+      "definitions": [
+        {
+          "meaning": "светлый",
+          "example": "Light colors",
+          "example_ru": "Светлые цвета"
+        },
+        {
+          "meaning": "лёгкий (по весу)",
+          "example": "Light as a feather",
+          "example_ru": "Лёгкий как пёрышко"
+        }
+      ]
+    }
+  ]
+}

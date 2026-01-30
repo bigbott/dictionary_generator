@@ -1,0 +1,8 @@
+
+fix fillDb method in both services
+
+The JSON files in jsons directory do not 
+contain frequency data.  
+Take frequency value from the filename.
+The filename follows word_frequency.txt pattern
+where frequency is a number

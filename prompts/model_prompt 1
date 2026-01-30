@@ -1,0 +1,12 @@
+
+Create models for given JSON
+
+1. extends Equatable
+2. copyWith method
+3. fromJson(String str) factory constructor
+4. String toJson method
+5. fromMap factory constructor
+6. toMap method
+7. get props
+8. get stringify
+

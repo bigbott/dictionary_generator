@@ -1,0 +1,11 @@
+Entry is a class that represents a dictionary entry 
+JSON. 
+Word is a class used as DTO to store the 
+dictionary entry in Appwrite collection. 
+It should has a fromEntry contructor, 
+meanings - all meanings from Entry as coma separated
+strings;
+forms - all forms from Entry as coma separated string;
+partsOfSpeech - all parts of speech from Entry as 
+list of strings.
+Fix the Word class. 

@@ -1,0 +1,10 @@
+
+
+fix AppwriteDbService
+according to 
+words collection attributes: 
+word (String)
+frequency (int)
+json (String)
+meanings (String)
+parts_of_speech (String [])
