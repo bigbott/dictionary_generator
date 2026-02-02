@@ -1,0 +1,12 @@
+
+
+In google_tts_service.dart implement function
+synthesizeMp3ForAllJsons
+
+1. Read jsons one by one
+2. For each json: 
+   - create Entry object
+   - synthesize mp3 for Entry.word
+   - synthesize mp3 for every Entry.forms
+   - synthesize mp3 for english examples
+   - save mp3 to file using saveToFile method

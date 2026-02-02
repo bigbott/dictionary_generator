@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'lib/models/dictionary/entry.dart';
+import '../lib/models/dictionary/entry.dart';
 
 void main() {
   // Test JSON from the error case - missing forms field

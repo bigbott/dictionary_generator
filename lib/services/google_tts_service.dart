@@ -33,12 +33,6 @@ final class GoogleTtsService {
     return _ttsApi!;
   }
 
-  Future<TranslateApi> _getTranslationApi() async {
-    final client = await _getAuthClient();
-    TranslateApi translateApi = TranslateApi(client);
-    return translateApi;
-  }
-
   Future<List<int>> synthesizeText(
     String text, {
     String languageCode = 'en-US',
@@ -67,7 +61,10 @@ final class GoogleTtsService {
   }
 
   void saveToFile(String text, List<int> ttsData) {
-    String filename = '${text.toLowerCase().replaceAll(' ', '_')}.mp3';
+    String filename = text.replaceAll(RegExp(r'[^\w\s\-]'), '');
+    filename = '${filename.toLowerCase().replaceAll(' ', '_').
+                                         replaceAll('-', '_')}.mp3';
+
     String pathToFile = Config.mp3Dir + filename;
 
     final file = File(pathToFile);
@@ -80,6 +77,10 @@ final class GoogleTtsService {
   void dispose() {
     _authClient?.close();
   }
+}
+
+void synthesizeMp3ForAllJsons() {
+  
 }
 
 void main() async {
