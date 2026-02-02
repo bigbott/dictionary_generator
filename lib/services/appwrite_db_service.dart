@@ -17,7 +17,7 @@ final class AppwriteDbService {
       ..setEndpoint(SecretConstants.appwriteEndpoint)
       ..setKey(SecretConstants.appwriteApiKey)
       ..setProject(SecretConstants.appwriteProjectId);
-    
+
     _databases = Databases(_client);
   }
 
@@ -82,10 +82,7 @@ final class AppwriteDbService {
     }
   }
 
-  Future<Word> updateWord({
-    required String documentId,
-    Word? word,
-  }) async {
+  Future<Word> updateWord({required String documentId, Word? word}) async {
     try {
       final data = <String, dynamic>{};
       if (word != null) {
@@ -125,9 +122,14 @@ final class AppwriteDbService {
   }
 
   Future<void> fillDb() async {
+    File progressFile = File(Config.dbProgress);
+    List<String> progress = progressFile.readAsLinesSync();
+    File failsFile = File(Config.dbFails);
+    File difFile = File(Config.dbDif);
+    List<String> dif = difFile.readAsLinesSync();
     try {
       final jsonDir = Directory(Config.jsonDir);
-      
+
       if (!await jsonDir.exists()) {
         print('JSON directory does not exist: ${Config.jsonDir}');
         return;
@@ -140,39 +142,53 @@ final class AppwriteDbService {
       print('Found ${jsonFiles.length} JSON files to process');
 
       for (final jsonFile in jsonFiles) {
+        Future.delayed(Duration(seconds: 1));
         try {
           final jsonContent = await jsonFile.readAsString();
-          
+
           final entry = Entry.fromJson(jsonContent);
-          
+          if (!dif.contains(entry.word)){
+            print(entry.word + ' is not in dif');
+            continue;
+          }
+          if (progress.contains(entry.word)) {
+            print(entry.word + ' is in progress');
+            continue;
+          }
           // Extract frequency from filename (pattern: word_frequency.json)
           final filename = path.basenameWithoutExtension(jsonFile.path);
+          
           final frequency = _extractFrequencyFromFilename(filename);
-          
+
           final entryWithFrequency = entry.copyWith(frequency: frequency);
-          
+
           final word = Word.fromEntry(entryWithFrequency);
           print('${word.word} ${word.frequency}');
-          
+
           // Upload to Appwrite
-          await createWord(word);
-          
+          try {
+            await createWord(word);
+            progressFile.writeAsStringSync('${entry.word}\n', mode: FileMode.append);
+          } on Exception catch (e) {
+            failsFile.writeAsStringSync('${entry.word} (${e.toString()})\n', mode: FileMode.append);
+            rethrow;
+          }
+
           print('Successfully uploaded word: ${word.word} (frequency: $frequency)');
-          
         } catch (e) {
           print('Error processing file ${jsonFile.path}: $e');
+          
           continue;
         }
       }
-      
+
       print('Upload process completed');
-      
     } catch (e) {
       print('Error in runUploads: $e');
       throw Exception('Failed to run uploads: $e');
     }
   }
-  
+
   int _extractFrequencyFromFilename(String filename) {
     try {
       // Pattern: word_frequency (e.g., "hello_1234")
@@ -188,6 +204,42 @@ final class AppwriteDbService {
   }
 }
 
-void main () {
+  void printMissingFiles() {
+    try {
+      final progressFile = File(Config.progress);
+      final dbProgressFile = File(Config.dbProgress);
+
+      if (!progressFile.existsSync()) {
+        print('Progress file does not exist: ${Config.progress}');
+        return;
+      }
+
+      if (!dbProgressFile.existsSync()) {
+        print('DB Progress file does not exist: ${Config.dbProgress}');
+        return;
+      }
+
+      final progressWords = progressFile.readAsLinesSync().toSet();
+      final dbProgressWords = dbProgressFile.readAsLinesSync().toSet();
+
+      final missingInDb = progressWords.difference(dbProgressWords);
+
+      if (missingInDb.isNotEmpty) {
+        for (final word in missingInDb) {
+          print(word);
+        }
+      }
+    } catch (e) {
+      print('Error comparing progress files: $e');
+    }
+  }
+
+
+void diff() {
+  printMissingFiles();
+}
+
+void main() {
   AppwriteDbService().fillDb();
+  //diff();
 }
