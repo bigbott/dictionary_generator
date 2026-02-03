@@ -6,7 +6,7 @@ synthesizeMp3ForAllJsons
 1. Read jsons one by one
 2. For each json: 
    - create Entry object
-   - synthesize mp3 for Entry.word
-   - synthesize mp3 for every Entry.forms
-   - synthesize mp3 for english examples
+   - synthesize mp3 for Entry.word using Config.voiceName8
+   - synthesize mp3 for every Entry.forms using random voice
+   - synthesize mp3 for english examples using random voice
    - save mp3 to file using saveToFile method

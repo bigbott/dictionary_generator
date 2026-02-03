@@ -1,0 +1,8 @@
+
+Implement uploadAll function in 
+appwrite_storage_service.dart
+
+1. Browse files in Config.mp3Dir
+2. Upload each file using upload method
+3. Track progress by storing filename in Config.storageProgress
+4. Skip file if it is already in Config.storageProgress

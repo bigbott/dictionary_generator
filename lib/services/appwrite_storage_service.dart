@@ -1,6 +1,7 @@
 import 'dart:io';
 //import 'package:appwrite/appwrite.dart';
 import 'package:dart_appwrite/dart_appwrite.dart';
+import 'package:dictionary_generator/config.dart';
 import 'package:dictionary_generator/secret_constants.dart';
 
 final class AppwriteStorageService {
@@ -9,7 +10,8 @@ final class AppwriteStorageService {
 
   AppwriteStorageService._() {
     _client = Client()
-      ..setEndpoint(SecretConstants.appwriteEndpoint)
+       ..setEndpoint(SecretConstants.appwriteEndpoint)
+      ..setKey(SecretConstants.appwriteApiKey)
       ..setProject(SecretConstants.appwriteProjectId);
     
     _storage = Storage(_client);
@@ -25,7 +27,7 @@ final class AppwriteStorageService {
         throw Exception('File not found at path: $pathToFile');
       }
 
-      final fileName = pathToFile.split(Platform.pathSeparator).last;
+      final fileName = pathToFile.split('/').last;
       final inputFile = InputFile.fromPath(path: pathToFile, filename: fileName);
 
       final result = await _storage.createFile(
@@ -63,4 +65,8 @@ final class AppwriteStorageService {
       throw Exception('Failed to get file URL: $e');
     }
   }
+}
+
+void main() {
+  AppwriteStorageService().upload(Config.mp3Dir + 'all.mp3');
 }
